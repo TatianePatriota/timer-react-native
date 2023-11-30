@@ -1,1 +1,1 @@
-Cronometro feito em React Native para praticar
+Cronômetro feito em React Native para praticar.
