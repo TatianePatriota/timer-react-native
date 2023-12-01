@@ -1,9 +1,46 @@
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 
 export default function App() {
   const [numberTime, setNumberTime] = useState(0);
+  const intervalId = useRef(null);
+  const startButtonLabel = useMemo(
+    () => (intervalId.current !== null ? "Parar" : "Iniciar"),
+    [intervalId.current]
+  );
+
+  startTimer = () => {
+    intervalId.current = setInterval(() => {
+      setNumberTime((oldTime) => oldTime + 0.1);
+    }, 100);
+  };
+
+  stopTimer = useCallback(() => {
+    clearInterval(intervalId.current);
+    intervalId.current = null;
+  }, [intervalId]);
+
+  handleTimer = useCallback(() => {
+    if (intervalId && intervalId.current) {
+      stopTimer();
+    } else {
+      startTimer();
+    }
+  }, [intervalId]);
+
+  clearTimer = () => {
+    stopTimer();
+    setNumberTime(0);
+  };
+
+  // function stopTimer() {
+  // if (running) {
+  //   clearInterval(intervalId);
+  //   intervalId = null;
+  // }
+  // setRunning(0);
+  // }
 
   return (
     <View style={styles.container}>
@@ -11,11 +48,11 @@ export default function App() {
       <Image source={require("./src/images/cronometro.png")} />
       <Text style={styles.timer}>{numberTime.toFixed(1)}</Text>
       <View style={styles.buttonArea}>
-        <TouchableOpacity style={styles.timerButton}>
-          <Text style={styles.textTimerButton}>Iniciar</Text>
+        <TouchableOpacity style={styles.timerButton} onPress={handleTimer}>
+          <Text style={styles.textTimerButton}>{startButtonLabel}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.timerButton}>
-          <Text style={styles.textTimerButton}>Parar</Text>
+        <TouchableOpacity style={styles.timerButton} onPress={clearTimer}>
+          <Text style={styles.textTimerButton}>Limpar</Text>
         </TouchableOpacity>
       </View>
     </View>
