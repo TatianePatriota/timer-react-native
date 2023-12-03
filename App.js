@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 
 export default function App() {
   const [numberTime, setNumberTime] = useState(0);
+  const { lastTime, setLastTime } = useState("");
   const intervalId = useRef(null);
   const startButtonLabel = useMemo(
     () => (intervalId.current !== null ? "Parar" : "Iniciar"),
@@ -34,14 +35,6 @@ export default function App() {
     setNumberTime(0);
   };
 
-  // function stopTimer() {
-  // if (running) {
-  //   clearInterval(intervalId);
-  //   intervalId = null;
-  // }
-  // setRunning(0);
-  // }
-
   return (
     <View style={styles.container}>
       <StatusBar style="auto" backgroundColor="gray" />
@@ -54,6 +47,9 @@ export default function App() {
         <TouchableOpacity style={styles.timerButton} onPress={clearTimer}>
           <Text style={styles.textTimerButton}>Limpar</Text>
         </TouchableOpacity>
+      </View>
+      <View style={styles.areaLastTime}>
+        <Text style={styles.textAreaLastTime}>Último tempo:{lastTime}</Text>
       </View>
     </View>
   );
@@ -91,5 +87,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 18,
     textTransform: "uppercase",
+  },
+  areaLastTime: {
+    marginTop: 40,
+  },
+  textAreaLastTime: {
+    fontSize: 22,
+    color: "#fff",
+    fontWeight: "bold",
   },
 });
