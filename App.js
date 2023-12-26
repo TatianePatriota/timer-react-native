@@ -4,12 +4,10 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 
 export default function App() {
   const [numberTime, setNumberTime] = useState(0);
-  const { lastTime, setLastTime } = useState("");
+  const [lastTime, setLastTime] = useState("");
+  const [textTimer, setTextTimer] = useState("Iniciar");
+
   const intervalId = useRef(null);
-  const startButtonLabel = useMemo(
-    () => (intervalId.current !== null ? "Parar" : "Iniciar"),
-    [intervalId.current]
-  );
 
   startTimer = () => {
     intervalId.current = setInterval(() => {
@@ -25,8 +23,10 @@ export default function App() {
   handleTimer = useCallback(() => {
     if (intervalId && intervalId.current) {
       stopTimer();
+      setTextTimer("Iniciar");
     } else {
       startTimer();
+      setTextTimer("Parar");
     }
   }, [intervalId]);
 
@@ -42,7 +42,7 @@ export default function App() {
       <Text style={styles.timer}>{numberTime.toFixed(1)}</Text>
       <View style={styles.buttonArea}>
         <TouchableOpacity style={styles.timerButton} onPress={handleTimer}>
-          <Text style={styles.textTimerButton}>{startButtonLabel}</Text>
+          <Text style={styles.textTimerButton}>{textTimer}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.timerButton} onPress={clearTimer}>
           <Text style={styles.textTimerButton}>Limpar</Text>
