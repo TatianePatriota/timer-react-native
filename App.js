@@ -32,7 +32,10 @@ export default function App() {
 
   clearTimer = () => {
     stopTimer();
+    setTextTimer("Iniciar");
+
     setNumberTime(0);
+    setLastTime(numberTime);
   };
 
   return (
@@ -49,7 +52,9 @@ export default function App() {
         </TouchableOpacity>
       </View>
       <View style={styles.areaLastTime}>
-        <Text style={styles.textAreaLastTime}>Último tempo:{lastTime}</Text>
+        <Text style={styles.textAreaLastTime}>
+          {lastTime > 0 ? "Último tempo: " + lastTime.toFixed(2) + "s" : ""}
+        </Text>
       </View>
     </View>
   );
